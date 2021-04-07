@@ -2,6 +2,7 @@ body {
     margin: 0;
     width: 100vw;
     height: 100vh;  
+    text-align: center;
 }
 
 text {
@@ -33,10 +34,6 @@ span {
     font-weight: bold;
     font-size: 14px;
 }
-
-.html { background: #F16529; }
-.css  { background: #1C88C7; }
-.js   { background: #FCC700; }
 
 .tooltip {
     position: absolute;
