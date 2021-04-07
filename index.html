@@ -39,13 +39,10 @@
             <input type="checkbox" id="animals">
             <label for="animals">Animals</label>
         </div>
-        
-        <!-- <div id="bubble-chart" style="width:520px;height:420px;">
-        </div> -->
 
-        <!-- Bubble chart -->
+        <!-- Bubble chart placeholder-->
         <svg id="bubble-chart"></svg>
-        <!-- Tooltip -->
+        <!-- Tooltip placeholder-->
         <div class="tooltip">
             <img alt="" />
             <div>
@@ -119,7 +116,7 @@
                 // Set up color scale based on brand
                 const colorScale = d3.scaleOrdinal()
                     .domain(data.map(d => d.brand))
-                    .range(d3.schemeTableau10);
+                    .range(d3.schemePaired);
 
                 // construct bubble function
                 const bubble = data => d3.pack()
