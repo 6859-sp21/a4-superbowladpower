@@ -151,11 +151,17 @@
                     for (let name of brand_names) {
                         let brandExist = false;
                         for (let listItem of newList){
-                            if (listItem.brand == name){
+                            for (let vid of listItem){
+                                if (vid.brand == name){
+                                console.log(vid);
+                                console.log(name);
                                 brandExist = true;
+                                }
                             }
+                            
                         }
                         let val;
+                        console.log(brandExist);
                         if (brandExist){
                             val = { 'children' : newList.filter(d => d.brand == name), 
                                     'name': name
