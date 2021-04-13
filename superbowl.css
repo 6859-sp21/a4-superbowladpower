@@ -13,13 +13,14 @@ h1 {
     margin-top: 5rem;
 }
 
+
 circle {
     cursor: pointer;
 }
 
-img {
+/* img {
     width: 200px;
-}
+} */
 
 a {
     color: #FFF;
@@ -49,13 +50,8 @@ span {
 .tooltip {
     position: absolute;
     visibility: hidden;
-    /* background-color: grey; */
     display: flex;
     font-family: sans-serif;
-    max-width: 500px;
+    /* max-width: 500px; */
     opacity: 1 !important;
-}
-
-.tooltip div {
-    padding: 10px;
 }
