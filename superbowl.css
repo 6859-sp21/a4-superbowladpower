@@ -1,0 +1,61 @@
+
+
+text {
+    text-anchor: middle;
+    font: 10px sans-serif;
+    pointer-events: none;
+    opacity: 0;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+circle {
+    cursor: pointer;
+}
+
+img {
+    width: 200px;
+}
+
+a {
+    color: #FFF;
+    font-weight: bold;
+    display: block;
+}
+#button-features {
+    display: flex;
+    justify-content: center;
+}
+.btn {
+    margin: .5rem;
+}
+span {
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 2rem;
+}
+.year-slider {
+    width: 650px;
+}
+.slider-holder {
+    display: flex;
+    justify-content: center;
+}
+
+.tooltip {
+    position: absolute;
+    visibility: hidden;
+    /* background-color: grey; */
+    display: flex;
+    font-family: sans-serif;
+    max-width: 500px;
+    opacity: 1 !important;
+}
+
+.tooltip div {
+    padding: 10px;
+}
