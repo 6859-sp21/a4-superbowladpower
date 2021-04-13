@@ -17,7 +17,7 @@
 
       <!-- Year Slider -->
       <div class='slider-holder'>
-          <button type="button" id='allYears' class="btn btn-secondary"> All Years </button>
+          <button type="button" id='allYears' class="btn btn-secondary">All years</button>
           <input id="yearRange" class='year-slider'  type="range" min="2000" max="2020" value="2020"class="slider" >
           <span id="yearValue"></span>
           
@@ -25,26 +25,42 @@
       </div>
 
       <div id='button-features'>
-        <button type="button" id='sex' class="btn btn-secondary"> Sex </button>
-        <button type="button" id='funny' class="btn btn-secondary"> Funny </button>
-        <button type="button" id="show-product-quickly"class="btn btn-secondary"> Shows product quickly </button>
-        <button type="button" id="patriotic"class="btn btn-secondary"> Patriotic </button>
-        <button type="button" id="celebrity"class="btn btn-secondary"> Celebrity </button>
-        <button type="button" id="danger"class="btn btn-secondary"> Danger </button>
-        <button type="button" id="animals"class="btn btn-secondary"> Animals </button>
+        <button type="button" id='sex' class="btn btn-secondary"> Sex 👄 </button>
+        <button type="button" id='funny' class="btn btn-secondary"> Funny 🤣 </button>
+        <button type="button" id="show-product-quickly"class="btn btn-secondary"> Shows product quickly 🛍 </button>
+        <button type="button" id="patriotic"class="btn btn-secondary"> Patriotic 🚩</button>
+        <button type="button" id="celebrity"class="btn btn-secondary"> Celebrity 👩</button>
+        <button type="button" id="danger"class="btn btn-secondary"> Danger ⚠ </button>
+        <button type="button" id="animals"class="btn btn-secondary"> Animals 🐕 </button>
       </div>
     
-
+      <!-- Warning message of no match -->
+      
+      
+      <h5 class="text-warning" id="noMatch" style="display:none; margin-top: 10rem; text-align: center">👀 No matching ad records</h5>
+      
+      <h5 class="text-secondary" id="count" style="margin-top: 1rem; text-align: center"></h5>
       <svg id="bubble-chart"></svg>
 
-
-      <div class="tooltip card text-white  mb-3" style="max-width: 18rem;">
+      <!-- <div class="tooltip card text-white mb-3" style="max-width: 18rem;">
         <div class="title card-header"> </div>
+        <div class="card-body"></div>
         <img alt=""/>
         <div>
             <a></a>
         </div>
+      </div> -->
 
+      <div class="tooltip card text-white mb-3" style="width: 18rem;">
+        <img class="card-img-top" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <p class="card-text text-light"></p>
+          <p class="card-text" id="view"></p>
+          <p class="card-text" id="comment"></p>
+          <p class="card-text" id="like"></p>
+          <p class="card-text" id="dislike"></p>
+        </div>
       </div>
 
     </div>
