@@ -277,7 +277,6 @@ const generateChart = data => {
             selectedData = selectedData.filter( d => d.animals == 'TRUE')
         }
 
-        console.log(allYearsClicked);
         if (!allYearsClicked){
             selectedData = selectedData.filter(d => d.year == newYear)
         }
