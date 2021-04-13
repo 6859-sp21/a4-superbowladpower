@@ -167,7 +167,7 @@ const generateChart = data => {
     
     const root = bubble(superbowl_data);
 
-    // console.log(root)
+    console.log(root)
 
     const svg = d3.select('#bubble-chart')
         .style('width', width)
@@ -187,9 +187,22 @@ const generateChart = data => {
                         .on('mouseover', function (e, d) {
                             // circle.style('visibility', 'hidden')
                             if (!d.children) {
-                                tooltip.select('img').attr('src', d.data.thumbnail)
-                                tooltip.select('a').attr('href', d.data.superbowl_ads_dot_com_url);
-                                tooltip.select('.title').text(`${d.data.brand} : ${d.data.like_count} likes`);
+                                tooltip.select('img').attr('src', function(){
+                                    if(d.data.thumbnail != "NA"){
+                                        return d.data.thumbnail;
+                                    }
+                                    // Show image not available if so
+                                    else{
+                                        return "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/ImageNA.png";
+                                    }
+                                } )
+                                // tooltip.select('a').attr('href', d.data.superbowl_ads_dot_com_url);
+                                tooltip.select('.card-title').text(`${d.data.brand} ${d.data.year}: ${d.data.like_count} likes`);
+                                tooltip.select('.card-text').text(d.data.title);
+                                tooltip.select('#like').text(`likes: ${d.data.like_count}`);
+                                tooltip.select('#view').text(`views: ${d.data.view_count}`);
+                                tooltip.select('#comment').text(`comments: ${d.data.comment_count}`);
+                                tooltip.select('#dislike').text(`dislikes: ${d.data.dislike_count}`);
                                 tooltip.style('visibility', 'visible');
                                 tooltip.style('background-color', colors[d.data.brand])
                                 d3.select(this).style('stroke', '#222');
@@ -284,12 +297,19 @@ const generateChart = data => {
 
         //  WHAT TO DO IF THERE IS NO DATA? 
         console.log(selectedData)
+        d3.selectAll("g > *").remove();	
         if (selectedData.length > 0) {
-            d3.selectAll("g > *").remove();	
-            generateChart(selectedData)
+            document.querySelector("#bubble-chart").style.display = 'inline';
+            document.querySelector("#noMatch").style.display = 'none';
+            document.querySelector("#count").style.display = 'block';
+            document.querySelector("#count").innerHTML = 'Count: ' + selectedData.length;
+            generateChart(selectedData);
         }
         else {
             // need to do something here
+            document.querySelector("#noMatch").style.display = 'block';
+            document.querySelector("#bubble-chart").style.display = 'none';
+            document.querySelector("#count").style.display = 'none';
         }
     }
 
@@ -297,10 +317,12 @@ const generateChart = data => {
         allYearsClicked =  allYearsClicked ? false : true
         if (allYearsClicked) {
             allYears.style('background-color', '#007bff');
+            allYears.text("Browse by year");
             slider.disabled = true;
         }
         else {
             allYears.style('background-color', '#6c757d')
+            allYears.text("All years");
             slider.disabled = false;
         }
         update();
