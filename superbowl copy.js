@@ -9,9 +9,21 @@ var colors = {
     'NFL' : '#553D67',
     'Pepsi' : "#F64C72",
     'Doritos' : "#659DBD",
-    'E-Trade' : "FBEEC1"
+    'E-Trade' : "#e8a7e5"
 }
 
+var logos = {
+    'Toyota'    : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/toyota-logo.png",
+    'Hynudai'   : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/hyundai-logo.png",
+    'Coca-Cola' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/cocacola-logo.jpg', 
+    'Bud Light' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/budLight-logo.jpg',
+    'Kia'       : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/kia-logo.png",
+    'Budweiser' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/budweiser-logo.png",
+    'NFL' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/nfl-logo.png',
+    'Pepsi' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/pepsi-logo.png",
+    'Doritos' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/doritos-logo.png",
+    'E-Trade' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/etrade-logo.png"
+}
 
 // console.log(colors)
 
@@ -231,13 +243,28 @@ const generateChart = data => {
     const label = svg.append("g")
         .attr("text-anchor", "middle")
     .selectAll("text")
-    .data(root.descendants())
+    .data(root.descendants().slice(1))
     .join("text")
         .attr('transform', d => `translate(${d.x}, ${d.y})`)
-        .attr('dy', 2)
-        .style("font-size", "12px")  
+        .attr('dy', -8)
+        .style("font-size", d => Math.min(d.r/4, 14))
         .text(d => d.data.name);
-                          
+    
+    // Add logos
+    const images = svg.append("g")
+    .selectAll("image")
+    .data(root.descendants().slice(1))
+    .join("svg:image")
+        .style('opacity', 0)
+        .attr('x', d => d.x - d.r/4)
+        .attr('y', d => d.y - 2)
+        .attr('width', d => d.r/2)
+        .attr("xlink:href", d => d.children ? logos[d.data.name] : "");
+    
+    // console.log(root);
+    // console.log(root.descendants());
+    // console.log(root.descendants().slice(1));
+
     // Add animation transition effects
     node.transition()
         .ease(d3.easeExpInOut)
@@ -254,8 +281,12 @@ const generateChart = data => {
         .ease(d3.easeExpInOut)
         .duration(1000)
         .style('opacity', 1) 
-
-    // console.log(root)
+    
+    images.transition()
+        .delay(700)
+        .ease(d3.easeExpInOut)
+        .duration(1000)
+        .style('opacity', 1) 
 }
 
 
