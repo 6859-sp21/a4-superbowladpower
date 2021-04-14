@@ -150,13 +150,15 @@ const generateChart = data => {
 
     let superbowl_data = []
     for (let name of brand_names) {
-        let val = { 'children' : data.filter(d => d.brand == name), 
+        // Avoid empty branch
+        if (data.filter(d => d.brand == name).length != 0) {
+            let val = { 'children' : data.filter(d => d.brand == name), 
                     'name': name
                   }
-        superbowl_data.push(
-            val
-        )
+            superbowl_data.push(val)
+        }
     }
+
 
     // console.log(superbowl_data)
 
@@ -225,10 +227,16 @@ const generateChart = data => {
                             }
                         });
     
-    // Add title label to bubble
-    const label = node.append('text')
-                      .attr('dy', 2)
-                    //   .text(d => d.data.brand);
+
+    const label = svg.append("g")
+        .attr("text-anchor", "middle")
+    .selectAll("text")
+    .data(root.descendants())
+    .join("text")
+        .attr('transform', d => `translate(${d.x}, ${d.y})`)
+        .attr('dy', 2)
+        .style("font-size", "12px")  
+        .text(d => d.data.name);
                           
     // Add animation transition effects
     node.transition()
