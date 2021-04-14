@@ -9,7 +9,20 @@ var colors = {
     'NFL' : '#553D67',
     'Pepsi' : "#F64C72",
     'Doritos' : "#659DBD",
-    'E-Trade' : "FBEEC1"
+    'E-Trade' : "#e8a7e5"
+}
+
+var logos = {
+    'Toyota'    : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/toyota-logo.png",
+    'Hynudai'   : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/hyundai-logo.png",
+    'Coca-Cola' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/cocacola-logo.jpg', 
+    'Bud Light' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/budLight-logo.jpg',
+    'Kia'       : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/kia-logo.png",
+    'Budweiser' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/budweiser-logo.png",
+    'NFL' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/nfl-logo.png',
+    'Pepsi' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/pepsi-logo.png",
+    'Doritos' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/doritos-logo.png",
+    'E-Trade' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/etrade-logo.png"
 }
 
 
@@ -17,6 +30,7 @@ var colors = {
 
 const width = window.innerWidth;
 const height = window.innerHeight;
+const viewboxheight = height;
 
 const brand_names = ['Toyota', 'Hynudai', 'Coca-Cola', 'Bud Light', 
                      'Kia', 'Budweiser', 'NFL', 'Pepsi', 'Doritos',
@@ -153,13 +167,12 @@ const generateChart = data => {
                   }
             superbowl_data.push(val)
         }
-        
     }
 
     // console.log(superbowl_data)
 
     const bubble = data => d3.pack()
-        .size([width, height])
+        .size([width, viewboxheight])
         .padding(20)(d3.hierarchy({ children: data }).sum(d => Math.log(d.like_count)));
     
     
@@ -172,7 +185,7 @@ const generateChart = data => {
     console.log(root)
 
     const svg = d3.select('#bubble-chart')
-        // .attr("viewBox", [0, 0, width, height])
+        // .attr("viewBox", `0 0 ${width} ${viewboxheight}`)
         .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`)
         .style("display", "block")
         .style("margin-top", "15px")
@@ -239,11 +252,13 @@ const generateChart = data => {
         // .style("fill-opacity", d => d.parent === root ? 1 : 0)
         // .style("display", d => d.parent === root ? "inline" : "none")
         .text(d => d.data.name);
-
+    
     zoomTo([root.x, root.y, root.r * 2]);
+    console.log(root.x, root.y, root.r);
+    console.log(width, viewboxheight);
     
     function zoomTo(v) {
-        const k = width / v[2];
+        const k = viewboxheight / v[2];
 
         view = v;
 
