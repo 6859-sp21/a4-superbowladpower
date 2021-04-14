@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v6.js"></script>
+    <link rel="stylesheet" href="superbowl.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+          crossorigin="anonymous">
+  </head>
+  <body>
+    
+    <div>
+      <br>
+      <h1>Superbowl Ad Trend</h1>
+      <!-- <p>This visualization contains 247 Superbowl Ads between 2000-2020 from 10 brands that aired the most spots. 
+        The characteristics data come from FiveThirtyEight. We further added Youtube view and like data to evaluate the popularity of these videos.</p> -->
+
+      <!-- Year Slider -->
+      <div class='slider-holder'>
+          <button type="button" id='allYears' class="btn btn-secondary">All years</button>
+          <input id="yearRange" class='year-slider'  type="range" min="2000" max="2020" value="2020"class="slider" >
+          <span id="yearValue"></span>
+          
+
+      </div>
+
+      <div id='button-features'>
+        <button type="button" id='sex' class="btn btn-secondary"> Sex 👄 </button>
+        <button type="button" id='funny' class="btn btn-secondary"> Funny 🤣 </button>
+        <button type="button" id="show-product-quickly"class="btn btn-secondary"> Shows product quickly 🛍 </button>
+        <button type="button" id="patriotic"class="btn btn-secondary"> Patriotic 🚩</button>
+        <button type="button" id="celebrity"class="btn btn-secondary"> Celebrity 👩</button>
+        <button type="button" id="danger"class="btn btn-secondary"> Danger ⚠ </button>
+        <button type="button" id="animals"class="btn btn-secondary"> Animals 🐕 </button>
+      </div>
+    
+      <!-- Warning message of no match -->
+      
+      
+      <h5 class="text-warning" id="noMatch" style="display:none; margin-top: 10rem; text-align: center">👀 No matching ad records</h5>
+      
+      <h5 class="text-secondary" id="count" style="margin-top: 1rem; text-align: center"></h5>
+      <svg id="bubble-chart"></svg>
+
+      <!-- <div class="tooltip card text-white mb-3" style="max-width: 18rem;">
+        <div class="title card-header"> </div>
+        <div class="card-body"></div>
+        <img alt=""/>
+        <div>
+            <a></a>
+        </div>
+      </div> -->
+
+      <div class="tooltip card text-white mb-3" style="width: 18rem;">
+        <img class="card-img-top" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <p class="card-text text-light"></p>
+          <p class="card-text" id="view"></p>
+          <p class="card-text" id="comment"></p>
+          <p class="card-text" id="like"></p>
+          <p class="card-text" id="dislike"></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- <div id='Legend'>
+      <button type="button" class="btn btn-secondary" style="background-color: #E27D60"> Toyota </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #85DCBA"> Hynudai </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #E8A87C"> Coca-Cola </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #41B3A3"> Kia </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #C38D9E"> Bud Light </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #242582"> Budweiser </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #553D67"> NFL </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #F64C72"> Pepsi </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #659DBD"> Doritos </button>
+      <button type="button" class="btn btn-secondary" style="background-color: #FBEEC1"> E-Trade </button>
+    </div> -->
+
+    <script src="superbowlZoom.js"> </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+
+  <!-- This adapted from Arvind's observable from lecture. https://observablehq.com/d/4c93c3a516d35624 -->
+  <!-- Great D3 intro resource: https://observablehq.com/@d3/learn-d3?collection=@d3/learn-d3 -->
+</html>
