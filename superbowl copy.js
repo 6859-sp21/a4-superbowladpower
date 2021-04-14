@@ -178,11 +178,14 @@ const generateChart = data => {
     const node = svg.selectAll()
         .data(root.descendants().slice(1))
         .enter().append('g')
-        .attr('transform', d => `translate(${d.x}, ${d.y})`);
+        .attr('transform', d => `translate(${width / 2}, ${height / 2})`);
+        // If no need animation effect, use the code below
+        // .attr('transform', d => `translate(${d.x}, ${d.y})`);
 
 
     const circle = node.append('circle')
-                        .attr('r', d => d.r)
+                        // If no need animation effect, use the code below
+                        // .attr('r', d => d.r)
                         .style('fill', d => d.children ? colors[d.data.name] : "white")
                         .on('mouseover', function (e, d) {
                             // circle.style('visibility', 'hidden')
@@ -230,7 +233,7 @@ const generateChart = data => {
     // Add animation transition effects
     node.transition()
         .ease(d3.easeExpInOut)
-        .duration(10000)
+        .duration(1000)
         .attr('transform', d => `translate(${d.x}, ${d.y})`);
     
     circle.transition()
@@ -245,8 +248,6 @@ const generateChart = data => {
         .style('opacity', 1) 
 
     // console.log(root)
-                            
-
 }
 
 
