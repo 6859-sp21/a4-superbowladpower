@@ -26,8 +26,6 @@ var logos = {
 }
 
 
-// console.log(colors)
-
 const width = window.innerWidth;
 const height = window.innerHeight;
 const viewboxHeight = height * 0.8;
@@ -142,7 +140,6 @@ animals.on('click', () => {
 })
 
 
-
 var featureDetails = {
     year: 2020, 
     sex: 'FALSE', 
@@ -153,8 +150,6 @@ var featureDetails = {
     danger: 'FALSE', 
     animals: 'FALSE'
 }
-
-
 
 
 const generateChart = data => {
@@ -169,8 +164,6 @@ const generateChart = data => {
             superbowl_data.push(val)
         }
     }
-
-    // console.log(superbowl_data)
 
     const bubble = data => d3.pack()
         .size([viewboxWidth, viewboxHeight])
@@ -191,11 +184,10 @@ const generateChart = data => {
         .style("display", "block")
         .style("margin-top", "15px")
         .style("margin-bottom", "15px")
+        // Color the background to see the viewbox area. Can delete background color in final
         .style("background", "#343a40")
         .style("cursor", "pointer")
         .on("click", (event) => zoom(event, root));
-        // .style('width', width)
-        // .style('height', height)
     
     const node = svg.append("g")
     .selectAll("circle")
@@ -313,14 +305,67 @@ const generateChart = data => {
             .style("fill-opacity", d => d.parent === focus ? 1 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
-
-        // images
-        // .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-        // .transition(transition)
-        //     .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-        //     .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-        //     .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
     }
+
+
+    // --------------------------------------------------------------------
+    // Bubble size legend - Work in progress
+    // Todo: dynamically update size legend. Place next to main bubble chart.
+    // --------------------------------------------------------------------
+    var legendHeight = 460
+    var legendWidth = 460
+    var sizeLegend = d3.select("#size-legend")
+    .append("svg")
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+      
+    // The scale you use for bubble size
+    var size = d3.scaleSqrt()
+    .domain([1, 100])  // What's in the data, let's say it is percentage
+    .range([1, 100])  // Size in pixel
+    
+    // Add legend: circles
+    var valuesToShow = [10, 50, 100]
+    var xCircle = 230
+    var xLabel = 380
+    var yCircle = 330
+    
+    sizeLegend
+    .selectAll("legend")
+    .data(valuesToShow)
+    .enter()
+    .append("circle")
+        .attr("cx", xCircle)
+        .attr("cy", function(d){ return yCircle - size(d) } )
+        .attr("r", function(d){ return size(d) })
+        .style("fill", "none")
+        .attr("stroke", "black")
+    
+    // Add legend: segments
+    sizeLegend
+    .selectAll("legend")
+    .data(valuesToShow)
+    .enter()
+    .append("line")
+        .attr('x1', function(d){ return xCircle + size(d) } )
+        .attr('x2', xLabel)
+        .attr('y1', function(d){ return yCircle - size(d) } )
+        .attr('y2', function(d){ return yCircle - size(d) } )
+        .attr('stroke', 'black')
+        .style('stroke-dasharray', ('2,2'))
+    
+    // Add legend: labels
+    sizeLegend
+    .selectAll("legend")
+    .data(valuesToShow)
+    .enter()
+    .append("text")
+        .attr('x', xLabel)
+        .attr('y', function(d){ return yCircle - size(d) } )
+        .text( function(d){ return d } )
+        .style("font-size", 10)
+        .style('opacity', 1)
+        .attr('alignment-baseline', 'middle')
 
 }
 
@@ -339,36 +384,27 @@ const generateChart = data => {
         if (sexClicked) {
             selectedData = selectedData.filter(d => d.use_sex == 'TRUE')
         }
-        
-
         if ( funnyClicked) {
             selectedData = selectedData.filter(d => d.funny == 'TRUE')
         }
-
         if ( showProductsClicked) {
             selectedData = selectedData.filter(d => d.show_product_quickly == 'TRUE')
         }
-
         if ( patrioticClicked) {
             selectedData = selectedData.filter(d => d.patriotic == 'TRUE')
         }
-
         if ( celebrityClicked) {
             selectedData = selectedData.filter( d => d.celebrity == 'TRUE')
         }
-        
         if (dangerClicked) {
             selectedData = selectedData.filter( d => d.danger == 'TRUE')
         }
-
         if (animalsClicked) {
             selectedData = selectedData.filter( d => d.animals == 'TRUE')
         }
-
         if (!allYearsClicked){
             selectedData = selectedData.filter(d => d.year == newYear)
         }
-        
 
         //  WHAT TO DO IF THERE IS NO DATA? 
         console.log(selectedData)
@@ -381,7 +417,7 @@ const generateChart = data => {
             generateChart(selectedData);
         }
         else {
-            // need to do something here
+            // need to do something here: show no matching record warning
             document.querySelector("#noMatch").style.display = 'block';
             document.querySelector("#bubble-chart").style.display = 'none';
             document.querySelector("#count").style.display = 'none';
