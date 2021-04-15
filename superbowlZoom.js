@@ -14,15 +14,15 @@ var colors = {
 
 var logos = {
     'Toyota'    : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/toyota-logo.png",
-    'Hynudai'   : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/hyundai-logo.png",
+    'Hynudai'   : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/hyundai-logo.jpg",
     'Coca-Cola' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/cocacola-logo.jpg', 
     'Bud Light' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/budLight-logo.jpg',
-    'Kia'       : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/kia-logo.png",
+    'Kia'       : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/kia-logo2.png",
     'Budweiser' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/budweiser-logo.png",
     'NFL' : 'https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/nfl-logo.png',
-    'Pepsi' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/pepsi-logo.png",
+    'Pepsi' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/pepsi-logo.jpg",
     'Doritos' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/doritos-logo.png",
-    'E-Trade' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/etrade-logo.png"
+    'E-Trade' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/etrade-logo.jpg"
 }
 
 
@@ -203,6 +203,7 @@ const generateChart = data => {
     .join("circle")
         .attr("fill", d => d.children ? colors[d.data.name] : "white")
         .on('mouseover', function (e, d) {
+            // Tooltips for individual video (white circles)
             if (!d.children) {
                 tooltip.select('img').attr('src', function(){
                     if(d.data.thumbnail != "NA"){
@@ -212,18 +213,25 @@ const generateChart = data => {
                     else{
                         return "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/ImageNA.png";
                     }
-                } )
+                })
                 // tooltip.select('a').attr('href', d.data.superbowl_ads_dot_com_url);
                 tooltip.select('.card-title').text(`${d.data.brand} ${d.data.year}: ${d.data.like_count} likes`);
-                tooltip.select('.card-text').text(d.data.title);
-                tooltip.select('#like').text(`likes: ${d.data.like_count}`);
-                tooltip.select('#view').text(`views: ${d.data.view_count}`);
-                tooltip.select('#comment').text(`comments: ${d.data.comment_count}`);
-                tooltip.select('#dislike').text(`dislikes: ${d.data.dislike_count}`);
-                tooltip.style('visibility', 'visible');
+                tooltip.select('.card-subtitle').text(d.data.title);
+                tooltip.select('.card-text').text(`Youtube views 👀: ${d.data.view_count} | likes 👍: ${d.data.like_count} | comments 💬: ${d.data.comment_count} | dislikes 👎: ${d.data.dislike_count} | `);
+                tooltip.select('.card-text').style('display', 'inline')
                 tooltip.style('background-color', colors[d.data.brand])
-                d3.select(this).style('stroke', '#222');
             }
+            // Tooltips for brand (corlored circles)
+            else{
+                tooltip.select('img').attr('src', logos[d.data.name])
+                tooltip.select('.card-title').text(`Brand: ${d.data.name}`);
+                tooltip.select('.card-subtitle').text(`Number of ads: ${d.children.length}`);
+                tooltip.select('.card-text').style('display', 'none')
+                tooltip.style('background-color', colors[d.data.name])
+            }
+            // Show tooltips
+            tooltip.style('visibility', 'visible');
+            d3.select(this).style('stroke', '#222');
         })
         .on('mousemove', e => tooltip.style('top', `${e.pageY}px`)
                                     .style('left', `${e.pageX + 10}px`))
@@ -248,11 +256,29 @@ const generateChart = data => {
     .selectAll("text")
     .data(root.descendants())
     .join("text")
-        .style("font-size", "12px")  
+        // Font size will be no more than one fourth of the radius, cap at 14
+        .style("font-size", d => Math.min(d.r * 1.2, 14))
+        // .style("font-size", "20px") 
         .style("opacity", 1)  
-        // .style("fill-opacity", d => d.parent === root ? 1 : 0)
-        // .style("display", d => d.parent === root ? "inline" : "none")
-        .text(d => d.data.name);
+        .style("fill-opacity", d => d.parent === root ? 1 : 0)
+        .style("display", d => d.parent === root ? "inline" : "none")
+        .text(d => {
+            if (d.children) {
+                return d.data.name;
+            }
+            else{
+                return "👍" + d.data.like_count;
+            }
+        });
+
+    // Add logos
+    // const images = svg.append("g")
+    //     .selectAll("image")
+    // .data(root.descendants().slice(1))
+    // .join("svg:image")
+    //     .style('opacity', 0.5)
+    //     .attr('width', d => d.r/2)
+    //     .attr("xlink:href", d => d.children ? logos[d.data.name] : "");
     
     zoomTo([root.x, root.y, root.r * 2]);
     console.log(root.x, root.y, root.r);
@@ -264,6 +290,7 @@ const generateChart = data => {
         view = v;
 
         label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+        // images.attr("transform", d => `translate(${(d.x - d.r/4 - v[0]) * k},${(d.y + 2 - v[1]) * k})`);
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("r", d => d.r * k);
     }
@@ -286,6 +313,13 @@ const generateChart = data => {
             .style("fill-opacity", d => d.parent === focus ? 1 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+
+        // images
+        // .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        // .transition(transition)
+        //     .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+        //     .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+        //     .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
     }
 
 }
