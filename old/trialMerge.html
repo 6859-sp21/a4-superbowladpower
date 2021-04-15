@@ -1,0 +1,251 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- Load d3.js -->
+        <script src="https://d3js.org/d3.v6.js"></script>
+        <!-- Load css -->
+        <link href="styles.css" rel="stylesheet">
+
+        <title>Superbowl Ad Trend</title>
+    </head>
+    
+    <body>
+        <h1>Superbowl Ad Trend</h1>
+
+        <!-- Year Slider -->
+        <div>
+            <label for="yearRange">Year</label>
+            <input type="range" min="2000" max="2020" value="2020" class="slider" id="yearRange">
+            <p>Year: <span id="yearValue"></span></p>
+            <br>
+        </div>
+        
+        <!-- Ad traits checkboxex -->
+        <div>
+            <input type="checkbox" id="use_sex">
+            <label for="use_sex">Sex</label>
+            <input type="checkbox" id="funny">
+            <label for="funny">Funny</label>
+            <input type="checkbox" id="show_product_quickly">
+            <label for="show_product_quickly">Show products quickly</label>
+            <input type="checkbox" id="patriotic">
+            <label for="patriotic">Patriotic</label>
+            <input type="checkbox" id="celebrity">
+            <label for="celebrity">Celebrity</label>
+            <input type="checkbox" id="danger">
+            <label for="danger">danger</label>
+            <input type="checkbox" id="animals">
+            <label for="animals">Animals</label>
+        </div>
+
+        <!-- Bubble chart placeholder-->
+        <svg id="bubble-chart"></svg>
+        <!-- Tooltip placeholder-->
+        <div class="tooltip">
+            <img alt="" />
+            <div>
+                <a></a>
+                <span></span>
+            </div>
+        </div>
+
+        <script>
+
+            // ------------------------------------------------------------------------
+            // Implement year slider and trait checkboxes. 
+            // ------------------------------------------------------------------------
+            var slider = document.getElementById("yearRange");
+            var output = document.getElementById("yearValue");
+            output.innerHTML = slider.value;
+            var newYear = 2020;
+
+            // Update year slider annotation
+            slider.oninput = function() {
+                    output.innerHTML = this.value;
+                    newYear = + this.value;
+                }
+            
+            // Import data
+            d3.csv("https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/superbowl-ad-youtube.csv").then(function(data) {
+                // Convert data into the correct data type
+                data.forEach(function(d) {
+                    // d.year= new Date(+d.year, 0, 1)
+                    d.year = +d.year;
+                    d.view_count = +d.view_count;
+                    d.like_count = +d.like_count;
+                    d.dislike_count = +d.dislike_count;
+                    d.comment = +d.comment;
+                });
+                
+                const brand_names = ['Toyota', 'Hynudai', 'Coca-Cola', 'Bud Light', 
+                     'Kia', 'Budweiser', 'NFL', 'Pepsi', 'Doritos',
+                     'E-Trade'];
+
+                let superbowl_data = []
+                for (let name of brand_names) {
+                    let val = { 'children' : data.filter(d => d.brand == name), 
+                                'name': name
+                            }
+                    superbowl_data.push(
+                        val
+                    )
+                }
+
+                data = superbowl_data;
+    
+                // Debug
+                // console.log(superbowl_data);
+                // console.log(data);
+                
+                // Set up canvas dimensions
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+
+                // Set up color scale based on brand
+                const colorScale = d3.scaleOrdinal()
+                    .domain(data.map(d => d.brand))
+                    .range(d3.schemePaired);
+
+                update();
+
+                d3.selectAll("input")
+                    .on("change", update);
+
+                // Update the filter criteria
+                function update(){
+                    // Loop through
+                    let newList = [];
+                    for (let item of data){
+                        let filtered;
+                        console.log(item.children);
+                        // console.log(item.children.filter(d => d ));
+                        filtered = item.children.filter(d => d.year == newYear);
+                        if(d3.select("#use_sex").property("checked")){
+                            filtered = filtered.filter(d => d.use_sex == "TRUE");
+                        } 
+                        // if(d3.select("#funny").property("checked")){
+                        //     newData = newData.filter(d => d.funny == "TRUE");
+                        // } 
+                        // if(d3.select("#show_product_quickly").property("checked")){
+                        //     newData = newData.filter(d => d.show_product_quickly == "TRUE");
+                        // } 
+                        // if(d3.select("#patriotic").property("checked")){
+                        //     newData = newData.filter(d => d.patriotic == "TRUE");
+                        // } 
+                        // if(d3.select("#celebrity").property("checked")){
+                        //     newData = newData.filter(d => d.celebrity == "TRUE");
+                        // } 
+                        // if(d3.select("#danger").property("checked")){
+                        //     newData = newData.filter(d => d.danger == "TRUE");
+                        // } 
+                        // if(d3.select("#animals").property("checked")){
+                        //     newData = newData.filter(d => d.animals == "TRUE");
+                        // } 
+                        newList.push(filtered);
+                    }
+                    console.log(newList);
+                    let final = [];
+
+                    for (let name of brand_names) {
+                        let brandExist = false;
+                        for (let listItem of newList){
+                            for (let vid of listItem){
+                                if (vid.brand == name){
+                                console.log(vid);
+                                console.log(name);
+                                brandExist = true;
+                                }
+                            }
+                            
+                        }
+                        let val;
+                        console.log(brandExist);
+                        if (brandExist){
+                            val = { 'children' : newList.filter(d => d.brand == name), 
+                                    'name': name
+                                }
+                        }
+                        final.push(
+                            val
+                        )
+                    }
+                    // year filter
+                    // newData = newData.filter(d => d.children.year != newYear);
+                    // traits filter
+                    console.log(final);
+                    d3.selectAll("g > *").remove();	
+                    generateChart(final);		
+                }
+                
+                // ------------------------------------------------------------------------
+                // The next part is showing all the data on the bubble chart
+                // ------------------------------------------------------------------------
+
+                function generateChart(data){
+                    // construct bubble function
+                    const bubble = data => d3.pack()
+                        .size([width, height])
+                        .padding(2)(d3.hierarchy({ children: data }).sum(d => d.view_count));
+
+                    const svg = d3.select('#bubble-chart')
+                        .style('width', width)
+                        .style('height', height);
+                    
+                    const root = bubble(data);
+                    const tooltip = d3.select('.tooltip');
+
+                    // Data join
+                    const node = svg.selectAll()
+                        .data(root.descendants().slice(1))
+                        .enter().append('g')
+                        .attr('transform', `translate(${width / 2}, ${height / 2})`);
+                    
+                    // Draw circles and add hover and click effects
+                    const circle = node.append('circle')
+                        .style('fill', d => colorScale(d.data.brand))
+                        .on('mouseover', function (e, d) {
+                            tooltip.select('img').attr('src', d.data.thumbnail);
+                            tooltip.select('a').attr('href', d.data.superbowl_ads_dot_com_url).text(d.data.title);
+                            tooltip.select('span').attr('class', d.data.brand).text(d.data.brand);
+                            tooltip.style('visibility', 'visible');
+
+                            d3.select(this).style('stroke', '#222');
+                        })
+                        .on('mousemove', e => tooltip.style('top', `${e.pageY}px`)
+                                                    .style('left', `${e.pageX + 10}px`))
+                        .on('mouseout', function () {
+                            d3.select(this).style('stroke', 'none');
+                            return tooltip.style('visibility', 'hidden');
+                        })
+                        .on('click', (e, d) => window.open(d.data.superbowl_ads_dot_com_url));
+                    
+                    // Add title label to bubble
+                    const label = node.append('text')
+                        .attr('dy', 2)
+                        // .text(d => d.data.title.substring(0, d.r / 3));
+
+                    // Add animation transition effects
+                    node.transition()
+                        .ease(d3.easeExpInOut)
+                        .duration(1000)
+                        .attr('transform', d => `translate(${d.x}, ${d.y})`);
+                    
+                    circle.transition()
+                        .ease(d3.easeExpInOut)
+                        .duration(1000)
+                        .attr('r', d => d.r);
+                    
+                    label.transition()
+                        .delay(700)
+                        .ease(d3.easeExpInOut)
+                        .duration(1000)
+                        .style('opacity', 1)                
+                }
+                
+            });
+        </script>
+    </body>
+
+</html>
