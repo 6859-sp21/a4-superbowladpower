@@ -30,7 +30,8 @@ var logos = {
 
 const width = window.innerWidth;
 const height = window.innerHeight;
-const viewboxheight = height;
+const viewboxHeight = height * 0.8;
+const viewboxWidth = width * 1;
 
 const brand_names = ['Toyota', 'Hynudai', 'Coca-Cola', 'Bud Light', 
                      'Kia', 'Budweiser', 'NFL', 'Pepsi', 'Doritos',
@@ -172,7 +173,7 @@ const generateChart = data => {
     // console.log(superbowl_data)
 
     const bubble = data => d3.pack()
-        .size([width, viewboxheight])
+        .size([viewboxWidth, viewboxHeight])
         .padding(20)(d3.hierarchy({ children: data }).sum(d => Math.log(d.like_count)));
     
     
@@ -186,7 +187,7 @@ const generateChart = data => {
 
     const svg = d3.select('#bubble-chart')
         // .attr("viewBox", `0 0 ${width} ${viewboxheight}`)
-        .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`)
+        .attr("viewBox", `-${viewboxWidth / 2} -${viewboxHeight / 2} ${viewboxWidth} ${viewboxHeight}`)
         .style("display", "block")
         .style("margin-top", "15px")
         .style("margin-bottom", "15px")
@@ -230,18 +231,18 @@ const generateChart = data => {
             d3.select(this).style('stroke', 'none');
             return tooltip.style('visibility', 'hidden');
         })
-        .on('dblclick', (e, d) => {
-            if (!d.children) {
+        .on("click", (event, d) => {
+            // Zoom if click on colored circles with children
+            if (d.children) {
+            focus !== d && (zoom(event, d), event.stopPropagation())
+            }
+            // Open video link if click on white circles
+            else{
                 window.open(d.data.superbowl_ads_dot_com_url)
             }
         })
-        .on("click", (event, d) => focus !== d && (zoom(event, d), event.stopPropagation()));
+            
     
-    // Add title label to bubble
-    // const label = node.append('text')
-    //                   .attr('dy', 2)
-    //                   .text(d => d.data.name)
-
     const label = svg.append("g")
         .attr("text-anchor", "middle")
     .selectAll("text")
@@ -255,10 +256,10 @@ const generateChart = data => {
     
     zoomTo([root.x, root.y, root.r * 2]);
     console.log(root.x, root.y, root.r);
-    console.log(width, viewboxheight);
+    console.log(viewboxWidth, viewboxHeight);
     
     function zoomTo(v) {
-        const k = viewboxheight / v[2];
+        const k = viewboxHeight / v[2];
 
         view = v;
 
