@@ -1,5 +1,5 @@
 # A4 - Superbowl Ad Power
-Developed by: Zhixin Lin, Christabel Sitienei, Yen-ting Wang
+Team member: Zhixin Lin, Christabel Sitienei, Yen-ting Wang
 
 Data Source
 
