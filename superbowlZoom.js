@@ -154,6 +154,7 @@ var featureDetails = {
 
 const generateChart = data => {
 
+    // Build hierachical data structure to feed into pack function
     let superbowl_data = []
     for (let name of brand_names) {
         // Avoid empty branch
@@ -174,8 +175,6 @@ const generateChart = data => {
     let view;
 
     const tooltip = d3.select('.tooltip'); 
-
-    console.log(root)
 
     const svg = d3.select('#bubble-chart')
         // .attr("viewBox", `0 0 ${width} ${viewboxheight}`)
@@ -272,8 +271,8 @@ const generateChart = data => {
     //     .attr("xlink:href", d => d.children ? logos[d.data.name] : "");
     
     zoomTo([root.x, root.y, root.r * 2]);
-    console.log(root.x, root.y, root.r);
-    console.log(viewboxWidth, viewboxHeight);
+    // console.log(root.x, root.y, root.r);
+    // console.log(viewboxWidth, viewboxHeight);
     
     function zoomTo(v) {
         const k = viewboxHeight / v[2];
@@ -333,12 +332,10 @@ const generateChart = data => {
     // Generate graph for the first time
     update();
 
-    // --------------------------------------------------------------------
     // Bubble size legend
     // Future improvement: dynamically update size legend.
-    // --------------------------------------------------------------------
-    var legendHeight = 460
-    var legendWidth = 460
+    var legendHeight = 140
+    var legendWidth = 140
     var sizeLegend = d3.select("#size-legend")
     .append("svg")
         .attr("width", legendWidth)
@@ -350,10 +347,10 @@ const generateChart = data => {
     .range([1, 100])  // Size in pixel
   
     // Add legend: circles
-    var valuesToShow = [10, 25, 50]
-    var xCircle = 230
-    var xLabel = 300
-    var yCircle = 330
+    var valuesToShow = [10, 20, 40]
+    var xCircle = 70
+    // var xLabel = 150
+    var yCircle = 122
     sizeLegend
         .selectAll("legend")
         .data(valuesToShow)
@@ -366,17 +363,17 @@ const generateChart = data => {
         .attr("stroke", "black")
     
     // Add legend: segments
-    sizeLegend
-        .selectAll("legend")
-        .data([25])
-        .enter()
-        .append("line")
-        .attr('x1', function(d){ return xCircle + size(d) } )
-        .attr('x2', xLabel)
-        .attr('y1', function(d){ return yCircle - size(d) } )
-        .attr('y2', function(d){ return yCircle - size(d) } )
-        .attr('stroke', 'black')
-        .style('stroke-dasharray', ('2,2'))
+    // sizeLegend
+    //     .selectAll("legend")
+    //     .data([25])
+    //     .enter()
+    //     .append("line")
+    //     .attr('x1', function(d){ return xCircle + size(d) } )
+    //     .attr('x2', xLabel)
+    //     .attr('y1', function(d){ return yCircle - size(d) } )
+    //     .attr('y2', function(d){ return yCircle - size(d) } )
+    //     .attr('stroke', 'black')
+    //     .style('stroke-dasharray', ('2,2'))
     
     // Add legend: labels
     sizeLegend
@@ -385,14 +382,14 @@ const generateChart = data => {
         .enter()
         .append("text")
         .style('opacity', 1)
-        .style('text-anchor', 'start')
-        .attr('x', xLabel + 2)
-        .attr('y', function(d){ return yCircle - size(d) } )
+        .style('text-anchor', 'middle')
+        .attr('x', xCircle)
+        .attr('y', function(d){ return yCircle + 12 } )
         .text("Radius: Youtube likes")
         .style("font-size", 12)
         .attr('alignment-baseline', 'middle')
 
-    featureButtons.on( 'click', update)
+    featureButtons.on('click', update);
 
     // Function for updating the trait filter and generate graph
     function update() {
@@ -402,16 +399,16 @@ const generateChart = data => {
         if (sexClicked) {
             selectedData = selectedData.filter(d => d.use_sex == 'TRUE')
         }
-        if ( funnyClicked) {
+        if (funnyClicked) {
             selectedData = selectedData.filter(d => d.funny == 'TRUE')
         }
-        if ( showProductsClicked) {
+        if (showProductsClicked) {
             selectedData = selectedData.filter(d => d.show_product_quickly == 'TRUE')
         }
-        if ( patrioticClicked) {
+        if (patrioticClicked) {
             selectedData = selectedData.filter(d => d.patriotic == 'TRUE')
         }
-        if ( celebrityClicked) {
+        if (celebrityClicked) {
             selectedData = selectedData.filter( d => d.celebrity == 'TRUE')
         }
         if (dangerClicked) {
@@ -425,20 +422,22 @@ const generateChart = data => {
         }
 
         //  WHAT TO DO IF THERE IS NO DATA? 
-        console.log(selectedData)
+        // console.log(selectedData)
         d3.selectAll("g > *").remove();	
         if (selectedData.length > 0) {
             document.querySelector("#bubble-chart").style.display = 'inline';
             document.querySelector("#noMatch").style.display = 'none';
             document.querySelector("#count").style.display = 'block';
             document.querySelector("#count").innerHTML = 'Count: ' + selectedData.length;
+            document.querySelector('#size-legend').style.display = 'inline';
             generateChart(selectedData);
         }
         else {
-            // need to do something here: show no matching record warning
+            // Show no matching record warning
             document.querySelector("#noMatch").style.display = 'block';
             document.querySelector("#bubble-chart").style.display = 'none';
             document.querySelector("#count").style.display = 'none';
+            document.querySelector('#size-legend').style.display = 'none';
         }
     }
 
@@ -446,12 +445,12 @@ const generateChart = data => {
         allYearsClicked =  allYearsClicked ? false : true
         if (allYearsClicked) {
             allYears.style('background-color', '#007bff');
-            allYears.text("Browse by year");
+            // allYears.text("Browse by year");
             slider.disabled = true;
         }
         else {
             allYears.style('background-color', '#6c757d')
-            allYears.text("All years");
+            // allYears.text("All years");
             slider.disabled = false;
         }
         update();
