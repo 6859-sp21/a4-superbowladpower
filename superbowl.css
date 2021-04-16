@@ -29,12 +29,22 @@ circle {
     margin: .5rem;
 }
 span {
-    padding-left: 10px;
-    font-weight: bold;
+    padding-left: 12px;
+    padding-right: 10px;
     font-size: 2rem;
 }
+
+#yearValue{
+    font-weight: bold;
+}
+
+#count {
+    padding-left: 40px;
+    font-size: 1.8rem;
+}
+
 .year-slider {
-    width: 650px;
+    width: 550px;
 }
 .slider-holder {
     display: flex;
