@@ -183,7 +183,7 @@ const generateChart = data => {
         .style("margin-top", "15px")
         .style("margin-bottom", "15px")
         // Color the background to see the viewbox area. Can delete background color in final
-        // .style("background", "#343a40")
+        .style("background", "black")
         .style("cursor", "pointer")
         .on("click", (event) => zoom(event, root));
     
@@ -221,7 +221,8 @@ const generateChart = data => {
             }
             // Show tooltips
             tooltip.style('visibility', 'visible');
-            d3.select(this).style('stroke', '#222');
+            d3.select(this).style('stroke', '#969696');
+            d3.select(this).style('stroke-width', '2px');
         })
         .on('mousemove', e => tooltip.style('top', `${e.pageY}px`)
                                     .style('left', `${e.pageX + 10}px`))
@@ -360,7 +361,7 @@ const generateChart = data => {
         .attr("cy", function(d){ return yCircle - size(d) } )
         .attr("r", function(d){ return size(d) })
         .style("fill", "none")
-        .attr("stroke", "black")
+        .attr("stroke", "white")
     
     // Add legend: segments
     // sizeLegend
@@ -381,13 +382,15 @@ const generateChart = data => {
         .data([25])
         .enter()
         .append("text")
-        .style('opacity', 1)
-        .style('text-anchor', 'middle')
         .attr('x', xCircle)
         .attr('y', function(d){ return yCircle + 12 } )
         .text("Radius: Youtube likes")
-        .style("font-size", 12)
         .attr('alignment-baseline', 'middle')
+        .style("fill", "white")
+        .style("font-size", 12)
+        .style('opacity', 1)
+        .style('text-anchor', 'middle')
+        
 
     featureButtons.on('click', update);
 
