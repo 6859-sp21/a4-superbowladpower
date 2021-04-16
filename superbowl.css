@@ -14,16 +14,6 @@ circle {
     cursor: pointer;
 }
 
-/* img {
-    width: 200px;
-} */
-
-/* a {
-    color: #FFF;
-    font-weight: bold;
-    display: block;
-} */
-
 #button-features {
     display: flex;
     justify-content: center;
@@ -56,6 +46,11 @@ span {
     visibility: hidden;
     display: flex;
     font-family: sans-serif;
-    /* max-width: 500px; */
     opacity: 1 !important;
+}
+
+#size-legend {
+    position: fixed;
+    left: 30px;
+    bottom:50px;
 }
