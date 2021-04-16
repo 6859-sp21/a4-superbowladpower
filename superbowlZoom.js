@@ -71,7 +71,7 @@ let allYearsClicked = false;
 sex.on('click', () => {
     sexClicked =  sexClicked ? false : true
     if (sexClicked) {
-        sex.style('background-color', '#343a40')
+        sex.style('background-color', 'black')
     }
     else {
         sex.style('background-color', '#6c757d')
@@ -81,7 +81,7 @@ sex.on('click', () => {
 funny.on('click', () => {
     funnyClicked =  funnyClicked ? false : true
     if (funnyClicked) {
-        funny.style('background-color', '#343a40')
+        funny.style('background-color', 'black')
     }
     else {
         funny.style('background-color', '#6c757d')
@@ -91,7 +91,7 @@ funny.on('click', () => {
 showProducts.on('click', () => {
     showProductsClicked =  showProductsClicked ? false : true
     if (showProductsClicked) {
-        showProducts.style('background-color', '#343a40')
+        showProducts.style('background-color', 'black')
     }
     else {
         showProducts.style('background-color', '#6c757d')
@@ -101,7 +101,7 @@ showProducts.on('click', () => {
 patriotic.on('click', () => {
     patrioticClicked =  patrioticClicked ? false : true
     if (patrioticClicked) {
-        patriotic.style('background-color', '#343a40')
+        patriotic.style('background-color', 'black')
     }
     else {
         patriotic.style('background-color', '#6c757d')
@@ -111,7 +111,7 @@ patriotic.on('click', () => {
 celebrity.on('click', () => {
     celebrityClicked =  celebrityClicked ? false : true
     if (celebrityClicked) {
-        celebrity.style('background-color', '#343a40')
+        celebrity.style('background-color', 'black')
     }
     else {
         celebrity.style('background-color', '#6c757d')
@@ -121,7 +121,7 @@ celebrity.on('click', () => {
 danger.on('click', () => {
     dangerClicked =  dangerClicked ? false : true
     if (dangerClicked) {
-        danger.style('background-color', '#343a40')
+        danger.style('background-color', 'black')
     }
     else {
         danger.style('background-color', '#6c757d')
@@ -132,7 +132,7 @@ danger.on('click', () => {
 animals.on('click', () => {
     animalsClicked =  animalsClicked ? false : true
     if (animalsClicked) {
-        animals.style('background-color', '#343a40')
+        animals.style('background-color', 'black')
     }
     else {
         animals.style('background-color', '#6c757d')
@@ -447,7 +447,7 @@ const generateChart = data => {
     allYears.on('click', () => {
         allYearsClicked =  allYearsClicked ? false : true
         if (allYearsClicked) {
-            allYears.style('background-color', '#007bff');
+            allYears.style('background-color', 'black');
             // allYears.text("Browse by year");
             slider.disabled = true;
         }
