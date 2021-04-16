@@ -1,4 +1,4 @@
-# a4-superbowladpower
+# A4 - Superbowl Ad Power
 Developed by: Zhixin Lin, Christabel Sitienei, Yen-ting Wang
 
 Data Source
