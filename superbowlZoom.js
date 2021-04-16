@@ -184,7 +184,7 @@ const generateChart = data => {
         .style("margin-top", "15px")
         .style("margin-bottom", "15px")
         // Color the background to see the viewbox area. Can delete background color in final
-        .style("background", "#343a40")
+        // .style("background", "#343a40")
         .style("cursor", "pointer")
         .on("click", (event) => zoom(event, root));
     
@@ -306,67 +306,6 @@ const generateChart = data => {
             .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
     }
 
-
-    // --------------------------------------------------------------------
-    // Bubble size legend - Work in progress
-    // Todo: dynamically update size legend. Place next to main bubble chart.
-    // --------------------------------------------------------------------
-    var legendHeight = 460
-    var legendWidth = 460
-    var sizeLegend = d3.select("#size-legend")
-    .append("svg")
-        .attr("width", legendWidth)
-        .attr("height", legendHeight)
-      
-    // The scale you use for bubble size
-    // var size = d3.scaleSqrt()
-    // .domain([1, 100])  // What's in the data, let's say it is percentage
-    // .range([1, 100])  // Size in pixel
-    
-    // Add legend: circles
-    var valuesToShow = [10, 100, 1000]
-    var xCircle = 230
-    var xLabel = 380
-    var yCircle = 330
-
-    
-    // sizeLegend
-    // .selectAll("legend")
-    // .data(valuesToShow)
-    // .enter()
-    // .append("circle")
-    //     .attr("cx", xCircle)
-    //     .attr("cy", function(d){ return yCircle - size(d) } )
-    //     .attr("r", function(d){ return size(d) })
-    //     .style("fill", "none")
-    //     .attr("stroke", "black")
-    
-    // // Add legend: segments
-    // sizeLegend
-    // .selectAll("legend")
-    // .data(valuesToShow)
-    // .enter()
-    // .append("line")
-    //     .attr('x1', function(d){ return xCircle + size(d) } )
-    //     .attr('x2', xLabel)
-    //     .attr('y1', function(d){ return yCircle - size(d) } )
-    //     .attr('y2', function(d){ return yCircle - size(d) } )
-    //     .attr('stroke', 'black')
-    //     .style('stroke-dasharray', ('2,2'))
-    
-    // // Add legend: labels
-    // sizeLegend
-    // .selectAll("legend")
-    // .data(valuesToShow)
-    // .enter()
-    // .append("text")
-    //     .attr('x', xLabel)
-    //     .attr('y', function(d){ return yCircle - size(d) } )
-    //     .text( function(d){ return d } )
-    //     .style("font-size", 10)
-    //     .style('opacity', 1)
-    //     .attr('alignment-baseline', 'middle')
-
 }
 
 
@@ -383,7 +322,7 @@ const generateChart = data => {
             count ++;
         }
     }
-    
+
     avgLike = Math.round(sum / count);
     for (entry of data){
         if (entry.like_count === "NA"){
@@ -393,6 +332,65 @@ const generateChart = data => {
 
     // Generate graph for the first time
     update();
+
+    // --------------------------------------------------------------------
+    // Bubble size legend
+    // Future improvement: dynamically update size legend.
+    // --------------------------------------------------------------------
+    var legendHeight = 460
+    var legendWidth = 460
+    var sizeLegend = d3.select("#size-legend")
+    .append("svg")
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+    
+    // The scale you use for bubble size
+    var size = d3.scaleSqrt()
+    .domain([1, 100])  // What's in the data, let's say it is percentage
+    .range([1, 100])  // Size in pixel
+  
+    // Add legend: circles
+    var valuesToShow = [10, 25, 50]
+    var xCircle = 230
+    var xLabel = 300
+    var yCircle = 330
+    sizeLegend
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("circle")
+        .attr("cx", xCircle)
+        .attr("cy", function(d){ return yCircle - size(d) } )
+        .attr("r", function(d){ return size(d) })
+        .style("fill", "none")
+        .attr("stroke", "black")
+    
+    // Add legend: segments
+    sizeLegend
+        .selectAll("legend")
+        .data([25])
+        .enter()
+        .append("line")
+        .attr('x1', function(d){ return xCircle + size(d) } )
+        .attr('x2', xLabel)
+        .attr('y1', function(d){ return yCircle - size(d) } )
+        .attr('y2', function(d){ return yCircle - size(d) } )
+        .attr('stroke', 'black')
+        .style('stroke-dasharray', ('2,2'))
+    
+    // Add legend: labels
+    sizeLegend
+        .selectAll("legend")
+        .data([25])
+        .enter()
+        .append("text")
+        .style('opacity', 1)
+        .style('text-anchor', 'start')
+        .attr('x', xLabel + 2)
+        .attr('y', function(d){ return yCircle - size(d) } )
+        .text("Radius: Youtube likes")
+        .style("font-size", 12)
+        .attr('alignment-baseline', 'middle')
 
     featureButtons.on( 'click', update)
 
