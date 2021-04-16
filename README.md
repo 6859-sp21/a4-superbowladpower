@@ -1,7 +1,7 @@
 # A4 - Superbowl Ad Power
 Team member: Zhixin Lin, Christabel Sitienei, Yen-ting Wang
 
-Live here: https://6859-sp21.github.io/a4-superbowladpower/superbowlZoom
+Live here: [https://6859-sp21.github.io/a4-superbowladpower/superbowlZoom]
 
 ## Data Source
 
