@@ -13,15 +13,17 @@
     
     <div>
       <br>
-      <h1>Superbowl Ad Trend</h1>
+      <h1>Superbowl Ads Trend</h1>
       <!-- About button fixed at the top right position -->
       <button type="button" class="btn btn-outline-primary" id="modal-button" data-toggle="modal" data-target="#modalAbout"> ? </button>
       
       <!-- Year Slider -->
       <div class='slider-holder'>
           <button type="button" id='allYears' class="btn btn-secondary">All years</button>
-          <input id="yearRange" class='year-slider'  type="range" min="2000" max="2020" value="2020"class="slider" >
           <span id="yearValue"></span>
+          <input id="yearRange" class='year-slider'  type="range" min="2000" max="2020" value="2020"class="slider" >
+          <!-- filtered video count -->
+          <span class="text-secondary" id="count"></span>
       </div>
 
       <!-- characteristics filters -->
@@ -37,9 +39,6 @@
     
       <!-- Warning message of no match -->
       <h5 class="text-warning" id="noMatch" style="display:none; margin-top: 10rem; text-align: center">👀 No matching ad records</h5>
-      
-      <!-- filtered video count -->
-      <h5 class="text-secondary" id="count" style="margin-top: 1rem; text-align: center"></h5>
       
       <!-- Bubble size legend -->
       <div id="size-legend"></div>
