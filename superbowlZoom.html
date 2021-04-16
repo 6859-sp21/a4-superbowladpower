@@ -2,7 +2,9 @@
   <head>
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v6.js"></script>
+    <!-- Load css -->
     <link rel="stylesheet" href="superbowl.css" />
+    <!-- Load bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
           crossorigin="anonymous">
@@ -12,6 +14,7 @@
     <div>
       <br>
       <h1>Superbowl Ad Trend</h1>
+      <!-- About button fixed at the top right position -->
       <button type="button" class="btn btn-outline-primary" id="modal-button" data-toggle="modal" data-target="#modalAbout"> ? </button>
       
       <!-- Year Slider -->
@@ -38,6 +41,9 @@
       <!-- filtered video count -->
       <h5 class="text-secondary" id="count" style="margin-top: 1rem; text-align: center"></h5>
       
+      <!-- Bubble size legend -->
+      <div id="size-legend"></div>
+
       <!-- Bubble chart placeholder -->
       <svg id="bubble-chart"></svg>
 
@@ -50,8 +56,6 @@
           <p class="card-text text-light"></p>
         </div>
       </div>
-
-      <div id="size-legend"></div>
 
       <!-- About Modal -->
       <div class="modal fade" id="modalAbout" tabindex="-1" role="dialog" aria-labelledby="modalAboutTitle" aria-hidden="true">
@@ -82,7 +86,6 @@
 
     </div>
 
-  
     <!-- <div id='Legend'>
       <button type="button" class="btn btn-secondary" style="background-color: #E27D60"> Toyota </button>
       <button type="button" class="btn btn-secondary" style="background-color: #85DCBA"> Hynudai </button>
@@ -103,5 +106,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
   </body>
-  
+
 </html>
