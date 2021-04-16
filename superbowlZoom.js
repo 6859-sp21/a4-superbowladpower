@@ -373,10 +373,30 @@ const generateChart = data => {
 (async () => {
     data = await d3.csv(file).then(data => data)
 
+    // Bubble radius is dependent on like counts
+    // Calculate average like count and replace NA values with avg
+    count = 0;
+    sum = 0;
+    for (item of data){
+        if (item.like_count != "NA"){
+            sum += +item.like_count;
+            count ++;
+        }
+    }
+    
+    avgLike = Math.round(sum / count);
+    for (entry of data){
+        if (entry.like_count === "NA"){
+            entry.like_count = avgLike;
+        }
+    }
+
+    // Generate graph for the first time
     update();
 
     featureButtons.on( 'click', update)
 
+    // Function for updating the trait filter and generate graph
     function update() {
 
         selectedData = [...data]
