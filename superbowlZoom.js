@@ -25,7 +25,6 @@ var logos = {
     'E-Trade' : "https://raw.githubusercontent.com/6859-sp21/a4-superbowladpower/main/data/etrade-logo.jpg"
 }
 
-
 const width = window.innerWidth;
 const height = window.innerHeight;
 const viewboxHeight = height * 0.8;
