@@ -168,8 +168,7 @@ const generateChart = data => {
     const bubble = data => d3.pack()
         .size([viewboxWidth, viewboxHeight])
         .padding(20)(d3.hierarchy({ children: data }).sum(d => Math.log(d.like_count)));
-    
-    
+
     const root = bubble(superbowl_data);
     let focus = root;
     let view;
@@ -208,8 +207,8 @@ const generateChart = data => {
                 })
                 // tooltip.select('a').attr('href', d.data.superbowl_ads_dot_com_url);
                 tooltip.select('.card-title').text(`${d.data.brand} ${d.data.year}: ${d.data.like_count} likes`);
-                tooltip.select('.card-subtitle').text(d.data.title);
-                tooltip.select('.card-text').text(`Youtube views 👀: ${d.data.view_count} | likes 👍: ${d.data.like_count} | comments 💬: ${d.data.comment_count} | dislikes 👎: ${d.data.dislike_count} | `);
+                tooltip.select('.card-subtitle').text(`${d.data.title}`);
+                tooltip.select('.card-text').text(`Youtube views 👀: ${d.data.view_count} | likes 👍: ${d.data.like_count} | comments 💬: ${d.data.comment_count} | dislikes 👎: ${d.data.dislike_count} (click to watch the video)`);
                 tooltip.select('.card-text').style('display', 'inline')
                 tooltip.style('background-color', colors[d.data.brand])
             }
@@ -320,52 +319,53 @@ const generateChart = data => {
         .attr("height", legendHeight)
       
     // The scale you use for bubble size
-    var size = d3.scaleSqrt()
-    .domain([1, 100])  // What's in the data, let's say it is percentage
-    .range([1, 100])  // Size in pixel
+    // var size = d3.scaleSqrt()
+    // .domain([1, 100])  // What's in the data, let's say it is percentage
+    // .range([1, 100])  // Size in pixel
     
     // Add legend: circles
-    var valuesToShow = [10, 50, 100]
+    var valuesToShow = [10, 100, 1000]
     var xCircle = 230
     var xLabel = 380
     var yCircle = 330
+
     
-    sizeLegend
-    .selectAll("legend")
-    .data(valuesToShow)
-    .enter()
-    .append("circle")
-        .attr("cx", xCircle)
-        .attr("cy", function(d){ return yCircle - size(d) } )
-        .attr("r", function(d){ return size(d) })
-        .style("fill", "none")
-        .attr("stroke", "black")
+    // sizeLegend
+    // .selectAll("legend")
+    // .data(valuesToShow)
+    // .enter()
+    // .append("circle")
+    //     .attr("cx", xCircle)
+    //     .attr("cy", function(d){ return yCircle - size(d) } )
+    //     .attr("r", function(d){ return size(d) })
+    //     .style("fill", "none")
+    //     .attr("stroke", "black")
     
-    // Add legend: segments
-    sizeLegend
-    .selectAll("legend")
-    .data(valuesToShow)
-    .enter()
-    .append("line")
-        .attr('x1', function(d){ return xCircle + size(d) } )
-        .attr('x2', xLabel)
-        .attr('y1', function(d){ return yCircle - size(d) } )
-        .attr('y2', function(d){ return yCircle - size(d) } )
-        .attr('stroke', 'black')
-        .style('stroke-dasharray', ('2,2'))
+    // // Add legend: segments
+    // sizeLegend
+    // .selectAll("legend")
+    // .data(valuesToShow)
+    // .enter()
+    // .append("line")
+    //     .attr('x1', function(d){ return xCircle + size(d) } )
+    //     .attr('x2', xLabel)
+    //     .attr('y1', function(d){ return yCircle - size(d) } )
+    //     .attr('y2', function(d){ return yCircle - size(d) } )
+    //     .attr('stroke', 'black')
+    //     .style('stroke-dasharray', ('2,2'))
     
-    // Add legend: labels
-    sizeLegend
-    .selectAll("legend")
-    .data(valuesToShow)
-    .enter()
-    .append("text")
-        .attr('x', xLabel)
-        .attr('y', function(d){ return yCircle - size(d) } )
-        .text( function(d){ return d } )
-        .style("font-size", 10)
-        .style('opacity', 1)
-        .attr('alignment-baseline', 'middle')
+    // // Add legend: labels
+    // sizeLegend
+    // .selectAll("legend")
+    // .data(valuesToShow)
+    // .enter()
+    // .append("text")
+    //     .attr('x', xLabel)
+    //     .attr('y', function(d){ return yCircle - size(d) } )
+    //     .text( function(d){ return d } )
+    //     .style("font-size", 10)
+    //     .style('opacity', 1)
+    //     .attr('alignment-baseline', 'middle')
 
 }
 
